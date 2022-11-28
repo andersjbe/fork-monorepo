@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  category_id Int    @id @default(autoincrement())
+  name        String
+}
+
+model collectedrecipes {
+  collected_recipe_id Int @id @default(autoincrement())
+  collection_id       Int @default(autoincrement())
+  recipe_id           Int @default(autoincrement())
+}
+
+model collection {
+  collection_id Int    @id @default(autoincrement())
+  user_id       Int    @default(autoincrement())
+  name          String
+}
+
+model ingredients {
+  ingredient_id Int    @id @default(autoincrement())
+  name          String
+}
+
+model notes {
+  note_id   Int    @id @default(autoincrement())
+  recipe_id Int    @default(autoincrement())
+  user_id   Int    @default(autoincrement())
+  body      String
+}
+
+model recipecategories {
+  recipe_category_id Int @id @default(autoincrement())
+  recipe_id          Int @default(autoincrement())
+  category_id        Int @default(autoincrement())
+}
+
+model recipeingredients {
+  recipe_ingredient_id Int     @id @default(autoincrement())
+  recipe_id            Int     @default(autoincrement())
+  ingredient_id        Int     @default(autoincrement())
+  amount               String?
+  unit                 String?
+}
+
+model recipes {
+  recipe_id      Int     @id @default(autoincrement())
+  title          String
+  description    String?
+  instructions   Json    @db.Json
+  user_id        Int     @default(autoincrement())
+  image_url      String
+  from_url       String?
+  from_recipe_id Int     @default(autoincrement())
+}
+
+model users {
+  user_id   Int     @id @default(autoincrement())
+  name      String
+  email     String? @unique
+  image_url String
+}
